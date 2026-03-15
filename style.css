@@ -1,0 +1,844 @@
+/* --- CSS VARIABLES & RESET --- */
+:root {
+    --text-primary: #5A191D; /* Maroon Gelap */
+    --text-secondary: #8B3A3E;
+    --card-bg: rgba(255, 255, 255, 0.45); /* Sedikit lebih putih agar kontras dengan gradient */
+    --card-border: #5A191D;
+    --white: #ffffff;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: 'Poppins', sans-serif;
+    scroll-behavior: smooth;
+}
+
+body {
+    /* UPDATE: Background Radial Gradient sesuai Figma */
+    background: radial-gradient(
+        circle at 90% 10%, /* Pusat cahaya di kanan atas */
+        #edcfd7 7%,       /* Pink Tua */
+        #EBE5E5 20%,      /* Pink Medium */
+        #EBE5E5 33%,      /* Pink Muda */
+        #EBE5E5 56%,      /* Transisi Putih-Pink */
+        hsl(342, 43%, 90%) 87%       /* Kuning Muda Dominan */
+    );
+    min-height: 100vh;
+    background-attachment: fixed; 
+    
+    color: var(--text-primary);
+    overflow-x: hidden;
+}
+
+/* --- NAVBAR --- */
+.floating-menu {
+    position: fixed;
+    top: 30px;        
+    
+    /* INI KUNCI BARUNYA AGAR TIDAK BENTROK DENGAN AOS */
+    left: 0;
+    right: 0;
+    margin: 0 auto;
+    width: fit-content; /* Memaksa lebar navbar menyesuaikan isi menu saja */
+    
+    background: rgba(255, 255, 255, 0.4); 
+    backdrop-filter: blur(10px);          
+    border: 1px solid rgba(255, 255, 255, 0.8); 
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05); 
+    padding: 10px 15px;
+    border-radius: 50px;
+    display: flex;
+    gap: 10px;
+    align-items: center;
+    z-index: 1000;
+}
+ 
+
+.menu-item {
+    display: flex;
+    align-items: center;
+    text-decoration: none;
+    
+    /* WARNA KEMBALI KE ASAL (Maroon) */
+    color: var(--text-primary); 
+    background: transparent;
+    
+    /* Ukuran awal (hanya ikon) */
+    width: 45px; 
+    height: 45px;
+    border-radius: 30px;
+    overflow: hidden; 
+    
+    /* ANIMASI: Tetap menggunakan efek membal yang Anda suka */
+    transition: width 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275), background 0.3s, color 0.3s;
+}
+
+/* Bagian Ikon */
+.menu-item i {
+    min-width: 45px; 
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.1rem;
+}
+
+/* Bagian Teks */
+.menu-item .text {
+    white-space: nowrap; 
+    padding-right: 20px;
+    font-size: 0.9rem;
+    font-weight: 600; /* Sedikit lebih tebal agar terbaca */
+    opacity: 0; 
+    transition: opacity 0.3s ease 0.1s;
+}
+
+.menu-item:hover {
+    width: 160px; /* Melebar */
+    
+    /* UBAH WARNA SAAT HOVER BIAR KONTRAS */
+    background: var(--text-primary); /* Background jadi Maroon */
+    color: var(--white);             /* Teks & Ikon jadi Putih */
+    box-shadow: 0 4px 10px rgba(90, 25, 29, 0.3);
+}
+
+
+.menu-item.skills:hover {
+    width: 100px !important;
+}
+        
+.menu-item.exp:hover {
+    width: 160px !important;
+}
+
+.menu-item.home:hover {
+    width: 110px !important;
+}
+
+        
+.menu-item.about:hover {
+    width: 140px !important;
+}
+
+.menu-item.contact:hover {
+    width: 150px !important;
+}
+
+.menu-item.proj:hover {
+    width: 120px !important;
+}
+
+.menu-item:hover .text {
+    opacity: 1; /* Munculkan teks */
+}
+
+.menu-item.active {
+    background: var(--white);
+    color: var(--text-primary);
+    box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+}
+
+/* --- LAYOUT UTILITY --- */
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+section {
+    padding: 60px ;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 50px;
+}
+
+.divider {
+    border-bottom: 2px solid var(--text-primary);
+    width: 150px;
+    margin: 0 auto 40px auto;
+}
+
+.section-title {
+    text-align: center;
+    font-size: 2.2rem;
+    margin-bottom: 10px;
+    color: var(--text-primary);
+    font-weight: 700;
+}
+
+/* --- HERO SECTION --- */
+
+section#home {
+    height: 100vh; /* Kunci pas 1 layar */
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+    
+    /* TRIK SAKTI: Memaksa Home menjebol kurungan .container 1000px */
+    width: 100vw;
+    position: relative;
+    left: 50%;
+    right: 50%;
+    margin-left: -50vw;
+    margin-right: -50vw;
+}
+
+#home .content-wrapper {
+    display: flex;
+    justify-content: space-between; /* Teks dorong ke ujung kiri dan kanan */
+    align-items: center;
+    width: 100%;
+    
+    /* SEKARANG ANGKA INI PASTI BERFUNGSI: */
+    max-width: 1350px; /* Kandang merentang sangat lebar */
+    
+    margin: 0 auto;
+    padding: 0 40px; /* Jarak aman dari ujung banget */
+    position: relative; /* Wadah acuan untuk foto di tengah */
+    height: 100%;
+}
+
+/* TEKS KIRI */
+.hero-left { width: 300%; z-index: 10; text-align: left; transform: translateY(-45px);}
+.hero-left h2 { font-size: 1,2rem; font-weight: 500; color: var(--text-primary); margin-bottom: 5px; color: #ab7785; }
+.hero-left h1 { font-size: 3rem; font-weight: 800; line-height: 1.1; color: var(--text-primary); }
+
+.hero-right { 
+    width: auto; 
+    text-align: left; 
+    
+    /* TAMBAHKAN INI AGAR TOMBOL CV BISA DIKLIK: */
+    position: relative;
+    z-index: 10; 
+}
+
+.hero-right h2 { 
+    font-size: 1.5rem; /* Ukuran dibesarkan agar seimbang dan mirip Figma */
+    font-weight: 600; 
+    line-height: 1.2; 
+    margin-bottom: 8px; 
+    color: var(--text-primary); 
+    white-space: nowrap; /* INI KUNCI UTAMANYA: Paksa teks merentang 1 baris, haram untuk numpuk! */
+}
+
+.hero-right .dynamic-subtitle { 
+    font-size: 1.3rem; /* Sedikit dibesarkan */
+    margin-bottom: 25px; 
+    margin-top: 0; 
+    color: var(--text-primary); 
+    white-space: nowrap; /* Animasi ngetik juga dipaksa 1 baris */
+}
+
+/* KODE TOMBOL CV NORMAL */
+.btn-cv {
+    display: inline-flex; 
+    align-items: center; 
+    gap: 8px; 
+    padding: 10px 26px;
+    background-color: var(--text-primary); 
+    color: white; 
+    text-decoration: none;
+    border-radius: 20px; 
+    font-size: 1rem; 
+    font-weight: 500; 
+    
+    /* INI KUNCI AGAR EFEK ZOOM-NYA MULUS (TIDAK KASAR) */
+    transition: all 0.3s ease-in-out; 
+    
+    box-shadow: 0 4px 10px rgba(90, 25, 29, 0.2);
+}
+
+/* KODE TOMBOL CV SAAT DI-HOVER KURSOR */
+.btn-cv:hover { 
+    background-color: #3e1114; /* Warna sedikit lebih gelap */
+    
+    /* INI YANG BIKIN NAIK DAN NGE-ZOOM 5% */
+    transform: translateY(-3px) scale(1.05); 
+    
+    /* Bayangan diperbesar agar efek timbul/melayangnya lebih terasa */
+    box-shadow: 0 8px 20px rgba(90, 25, 29, 0.4);
+}
+
+/* Container untuk tombol agar berjejer */
+.hero-btns {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Jarak antara tombol CV dan LinkedIn */
+}
+
+/* Style tombol LinkedIn */
+.btn-linkedin {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 45px;
+    height: 45px;
+    background-color: var(--text-primary);
+    color: white;
+    text-decoration: none;
+    border-radius: 50%; /* Membuatnya bulat sempurna */
+    font-size: 1.4rem;
+    transition: all 0.3s ease-in-out;
+    box-shadow: 0 4px 10px rgba(90, 25, 29, 0.2);
+}
+
+/* Efek Hover LinkedIn (Zoom & Naik sedikit) */
+.btn-linkedin:hover {
+    background-color: #3e1114;
+    transform: translateY(-3px) scale(1.1);
+    box-shadow: 0 8px 20px rgba(90, 25, 29, 0.4);
+}
+
+.hero-center {
+    position: absolute;
+    bottom: 0; 
+    left: 50%;
+    transform: translateX(-50%); 
+    width: 90000px;/* KUNCI: Lebar mentok, nggak bisa meraksasa */
+    height:550px; /* KUNCI: Tinggi proporsional */
+    z-index: 1; /* Di bawah teks */
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    -webkit-mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+    mask-image: linear-gradient(to bottom, black 70%, transparent 100%);
+}
+
+.glow-bg {
+    position: absolute;
+    width: 400px; height: 400px;
+    background: radial-gradient(circle, rgba(219, 169, 183, 0.9) 0%, rgba(255, 255, 255, 0) 65%);
+    border-radius: 50%;
+    bottom: 10%;
+    z-index: -1;
+}
+
+.hero-center img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* Memaksa foto menyesuaikan bingkai 450px x 85vh dengan aman */
+    object-position: bottom;
+}
+
+/* RESPONSIVE HP */
+@media (max-width: 900px) {
+    section#home { height: auto; padding-top: 100px; }
+    #home .content-wrapper { flex-direction: column; text-align: center; justify-content: flex-start; gap: 40px; }
+    .hero-left, .hero-right { width: 100%; text-align: center; }
+    .hero-center { position: relative; left: 0; transform: none; width: 100%; height: 50vh; order: 2; margin-bottom: 20px;}
+    .hero-left { order: 1; }
+    .hero-right { order: 3; align-items: center; display: flex; flex-direction: column; }
+}
+
+/* --- RESPONSIVE MOBILE --- */
+@media (max-width: 900px) {
+    #home .content-wrapper {
+        flex-direction: column;
+        text-align: center;
+        gap: 30px;
+        margin-top: 80px;
+    }
+    
+    /* Melepas kunci kavling di HP agar elemen turun ke bawah */
+    .hero-left, .hero-center, .hero-right {
+        flex: 1 1 auto;
+        width: 100%;
+        text-align: center;
+        padding-left: 0;
+    }
+    
+    .hero-left h1 { font-size: 3.2rem; }
+    
+    .hero-left { order: 1; }
+    .hero-center { order: 2; }
+    .hero-center img { height: 55vh; min-height: 350px; }
+    .hero-right { order: 3; display: flex; flex-direction: column; align-items: center; }
+}
+/* --- ABOUT SECTION --- */
+.section-quote {
+    text-align: center; 
+    font-size: 0.9rem; margin-bottom: 40px;
+    font-style: italic; 
+    display: table; 
+    margin-left: auto; 
+    margin-right: auto; 
+}
+
+#about .about-content { display: flex; align-items: center; gap: 60px; }
+.about-text { flex: 1; text-align: justify; font-size: 0.95rem;font-weight: 400; }
+.about-text h3 { font-weight: 400; margin-bottom: 15px; color: var(--text-primary); }
+.about-image img {
+    width: 280px; height: 280px; border-radius: 50%;
+    object-fit: cover; border: 8px solid white;
+    box-shadow: 0 10px 20px rgba(0,0,0,0.1); 
+}
+.highlight { color: #3e1114; font-weight: 0; }
+
+/* --- SKILLS SECTION --- */
+.section-subtitle {
+    text-align: center;
+    font-size: 0.9rem;
+    color: var(--text-primary);
+    margin-bottom: 40px;
+}
+
+.tech-icons {
+    display: flex; 
+    justify-content: center; 
+    gap: 20px;
+    margin-bottom: 30px; 
+    margin-top: 50px;
+    flex-wrap: wrap;
+    align-items: center;
+}
+
+.tech-icons img {
+    width: 45px; /* Mengatur ukuran agar seragam */
+    height: 45px;
+    transition: 0.3s;
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.05)); /* Sedikit bayangan */
+}
+
+.tech-icons img:hover { 
+    transform: translateY(-5px) scale(1.1); 
+}
+
+.skill-pills {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.skill-pill {
+    border: 1px solid var(--text-primary);
+    color: var(--text-primary);
+    background: transparent;
+    padding: 10px 35px; /* Lebarkan sedikit padding kiri-kanan agar lega */
+    border-radius: 50px;
+    font-size: 1.05rem; /* Kurangi sedikit dari 1.15rem agar tidak terlalu raksasa */
+    font-weight: 400; /* KUNCI: Ubah jadi lebih tipis (regular/medium) agar lebih elegan */
+    letter-spacing: 0.5px; /* Beri sedikit jarak antar huruf */
+    transition: 0.3s ease;
+    cursor: default;
+    background-color: rgba(255, 255, 255, 0.2); /* Opsi: tambah sedikit background putih transparan agar kontras dengan gradient */
+}
+
+.skill-pill:hover {
+    background: var(--text-primary);
+    color: var(--white);
+    box-shadow: 0 4px 10px rgba(90, 25, 29, 0.2);
+    transform: translateY(-5px) scale(1.1); 
+}
+/* --- EXPERIENCES & PROJECTS CARDS --- */
+.card-stack {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    align-items: center;
+}
+
+.info-card {
+    width: 100%;
+    max-width: 800px;
+    border: 1px solid var(--card-border);
+    /* UPDATE: Background kartu disesuaikan agar cocok dengan gradient kuning */
+    background-color: rgba(255, 240, 240, 0.6); 
+    backdrop-filter: blur(5px);
+    border-radius: 15px;
+    padding: 25px;
+    position: relative;
+    transition: transform 0.3s;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+}
+.info-card:hover { transform: translateY(-5px); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+
+.badge {
+    background-color: var(--text-primary);
+    color: white; padding: 5px 15px;
+    border-radius: 20px; font-size: 0.75rem; font-weight: 600;
+    display: inline-block; margin-bottom: 10px;
+}
+.badge.alt { background-color: #7a2e33; }
+
+.info-card h3 { font-size: 1.1rem; font-weight: 700; margin-bottom: 5px; }
+.info-card .date { font-size: 0.8rem; color: #5a191d; opacity: 0.8; margin-bottom: 15px; font-style: italic; }
+.info-card ul { list-style: none; font-size: 0.9rem; padding-left: 10px; }
+.info-card ul li { margin-bottom: 5px; position: relative; padding-left: 15px; }
+.info-card ul li::before { content: "•"; position: absolute; left: 0; color: var(--text-primary); }
+
+
+/* --- CERTIFICATION (SESUAI DESAIN GAMBAR TERBARU) --- */
+.cert-grid {
+    display: grid;
+    /* Lebar minimum disesuaikan agar ukurannya pas dengan yang di gambar */
+    grid-template-columns: repeat(auto-fit, minmax(380px, 1fr));
+    gap: 30px; /* Jarak antar kartu */
+    width: 100%;
+    max-width: 1000px; /* Lebar total container */
+    margin: 0 auto;
+}
+
+.cert-card {
+    /* Background sedikit transparan dengan efek frosted glass seperti di gambar */
+    background-color: rgba(253, 248, 249, 0.85); 
+    border-radius: 20px; /* Sudut membulat besar */
+    overflow: hidden; 
+    display: flex;
+    flex-direction: column;
+    /* Bayangan sangat halus di bawah */
+    box-shadow: 0 8px 24px rgba(90, 25, 29, 0.08); 
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.cert-card:hover {
+    transform: translateY(-8px); /* Sedikit naik saat disentuh */
+    box-shadow: 0 15px 30px rgba(90, 25, 29, 0.15);
+}
+
+/* Bagian Gambar Atas */
+.cert-image {
+    width: 100%;
+    height: 240px; /* Tinggi disesuaikan dengan proporsi di gambar */
+    position: relative;
+    /* Background pengganti jika gambar PDF gagal dimuat (abu-abu terang) */
+    background-color: #f0f0f0; 
+    border-bottom: 1px solid rgba(90, 25, 29, 0.05); /* Garis pemisah super tipis */
+}
+
+/* Jika menggunakan image nyata, pastikan proporsinya tetap */
+.cert-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; 
+    object-position: top;
+}
+
+/* Overlay Transparan & Tombol (Muncul saat hover) */
+.cert-overlay {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    /* Warna overlay merah marun transparan seperti di desainmu */
+    background: rgba(119, 73, 80, 0.85); 
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.cert-card:hover .cert-overlay {
+    opacity: 1; /* Muncul saat kartu di-hover */
+}
+
+/* Style Tombol "Lihat Detail" */
+.cert-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 28px;
+    background: var(--white);
+    color: var(--text-primary); /* Teks merah marun gelap */
+    text-decoration: none;
+    font-weight: 700; /* Tulisan tebal */
+    border-radius: 30px; /* Bentuk pill/kapsul */
+    font-size: 0.95rem;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+    transform: translateY(15px); /* Muncul dari bawah sedikit */
+    transition: transform 0.3s ease, background 0.3s ease;
+}
+
+.cert-card:hover .cert-link {
+    transform: translateY(0);
+}
+
+.cert-link:hover {
+    background: #fdfdfd;
+    transform: scale(1.05); /* Sedikit membesar */
+}
+
+/* Bagian Teks Bawah */
+.cert-info {
+    padding: 30px 25px; /* Jarak luas agar lega seperti di gambar */
+    display: flex;
+    flex-direction: column;
+    flex: 1; 
+}
+
+.cert-info h3 {
+    font-size: 1.4rem; 
+    color: var(--text-primary);
+    
+    /* UBAH ANGKA INI: Naikkan dari 8px jadi 16px atau 20px */
+    margin-bottom: 20px; 
+    
+    font-weight: 700;
+    line-height: 1.3;
+}
+.cert-issuer {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    font-weight: 600; /* Agak ditipiskan agar ikon lebih jelas */
+    text-transform: capitalize; /* Hapus kapital semua, ganti jadi huruf kapital di awal kata */
+    letter-spacing: 0.5px;
+    margin-bottom: 15px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap; /* Agar rapi kalau dibuka di layar HP yang sempit */
+}
+
+/* Warna ikon disesuaikan */
+.cert-issuer i {
+    color: var(--text-primary);
+    font-size: 0.9rem;
+}
+
+.cert-info p {
+    font-size: 0.95rem; /* Ukuran paragraf */
+    color: #4a4a4a; /* Abu-abu agak gelap */
+    line-height: 1.7; /* Jarak spasi paragraf (line-height) tinggi agar rapi */
+    margin: 0;
+    text-align: justify;
+    font-weight: 400;
+}
+
+/* --- CONTACT SECTION (REFINED) --- */
+#contact {
+    padding: 100px 20px;
+    display: flex;
+    justify-content: center;
+}
+
+.contact-wrapper-new {
+    display: flex;
+    align-items: center;
+    gap: 60px;
+    max-width: 1000px;
+    width: 100%;
+}
+
+/* Style Foto di Kiri */
+.contact-image-new {
+    flex: 0 0 320px;
+    height: 320px;
+}
+
+.contact-image-new img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 40px; /* Sudut membulat seperti di Figma */
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+
+/* Style Konten di Kanan */
+.contact-content-new {
+    flex: 1;
+}
+
+.contact-content-new h2 {
+    font-size: 3rem;
+    font-weight: 800;
+    color: var(--text-primary);
+    margin-bottom: 25px;
+}
+
+.contact-buttons-new {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+}
+
+/* Tombol Email Pill */
+.email-pill-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 25px;
+    background-color: var(--text-primary);
+    color: white;
+    text-decoration: none;
+    border-radius: 50px;
+    font-size: 0.95rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(90, 25, 29, 0.2);
+}
+
+.email-pill-btn:hover {
+    background-color: #3e1114;
+    transform: translateY(-3px);
+}
+
+/* Row Ikon Bulat */
+.social-circle-row {
+    display: flex;
+    gap: 12px;
+}
+
+.circle-btn {
+    width: 45px;
+    height: 45px;
+    background-color: var(--text-primary);
+    color: white;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    border-radius: 50%;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 15px rgba(90, 25, 29, 0.2);
+}
+
+.circle-btn:hover {
+    background-color: #3e1114;
+    transform: translateY(-3px) scale(1.1);
+}
+
+/* RESPONSIVE HP */
+@media (max-width: 850px) {
+    .contact-wrapper-new {
+        flex-direction: column;
+        text-align: center;
+        gap: 40px;
+    }
+    
+    .contact-content-new h2 {
+        font-size: 2.2rem;
+    }
+
+    .contact-buttons-new {
+        justify-content: center;
+        flex-direction: column;
+    }
+
+    .contact-image-new {
+        flex: 0 0 250px;
+        height: 250px;
+    }
+}
+
+/* --- RESPONSIVE MOBILE --- */
+@media (max-width: 768px) {
+    body { 
+        /* Gradient sedikit disesuaikan untuk HP */
+        background: radial-gradient(circle at 50% 10%, #DBA9B7 0%, #E4BFC9 15%, #FBF7AE 80%);
+    }
+    nav { justify-content: center; padding: 10px; }
+    nav ul { gap: 10px; font-size: 0.75rem; padding: 8px 15px; }
+
+    #home .content-wrapper, #about .about-content { flex-direction: column; text-align: center; }
+    .hero-image img { width: 250px; height: 320px; }
+    .hero-text h1 { font-size: 2.5rem; }
+    .social-buttons { justify-content: center; }
+    
+    .skills-container { flex-direction: column; align-items: center; }
+    .info-card { width: 100%; }
+}
+
+/* --- ANIMATION UTILS --- */
+.hidden { opacity: 0; transform: translateY(30px); transition: all 0.8s ease; }
+.visible { opacity: 1; transform: translateY(0); }
+
+/* --- TEKS DINAMIS (TYPEWRITER EFFECT) --- */
+.dynamic-subtitle {
+    display: inline-flex;
+    font-size: 1.5rem; /* Ukuran teks diperbesar sedikit agar terbaca jelas */
+    font-weight: 500;
+    color: var(--text-secondary);
+    margin-bottom: 35px;
+    /* Mencegah teks turun baris saat sedang diketik */
+    white-space: nowrap; 
+}
+
+.static-text {
+    margin-right: 8px; /* Jarak antara kata "Aspiring" dan teks dinamis */
+}
+
+/* Kotak untuk membungkus list teks dinamis */
+.dynamic-text {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    overflow: hidden; /* Sembunyikan kata yang belum 'diketik' */
+    /* Menentukan tinggi yang pas untuk 1 baris teks */
+    height: 1.5em; 
+    line-height: 1.5em;
+}
+
+.dynamic-text li {
+    font-weight: 700; /* Teks peran dibuat lebih tebal (Bold) */
+    color: var(--text-primary); /* Warna berbeda agar menonjol */
+    position: relative;
+    /* Animasi: Bergerak ke atas (slide) setiap 4 detik */
+    animation: slide 12s steps(3) infinite; 
+}
+
+/* Efek Kursor Mengetik (Garis Berkedip) */
+.dynamic-text li span {
+    position: relative;
+}
+
+.dynamic-text li span::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 100%;
+    width: 100%;
+    /* Warna penutup teks sama dengan warna background (kaca transparan) agar seolah-olah teksnya hilang */
+    background: rgba(255, 255, 255, 0.4); 
+    border-left: 2px solid var(--text-primary); /* Kursor (garis tepi kiri) */
+    /* Animasi mengetik (typing) maju-mundur */
+    animation: typing 4s steps(20) infinite; 
+}
+
+/* --- KEYFRAMES UNTUK ANIMASI --- */
+
+/* 1. Slide ke Atas (Ganti Kata) */
+@keyframes slide {
+    0%, 33.33% { transform: translateY(0); }         /* Tampil baris 1 */
+    33.34%, 66.66% { transform: translateY(-100%); }   /* Geser ke baris 2 */
+    66.67%, 100% { transform: translateY(-200%); }    /* Geser ke baris 3 */
+}
+
+/* 2. Mengetik (Kursor Berjalan dan Menghapus Teks) */
+@keyframes typing {
+    0%, 10%, 100% {
+        left: 0;
+        width: 100%; /* Kotak penuh (teks tertutup/terhapus) */
+    }
+    40%, 60% {
+        left: 100%;
+        width: 0; /* Kotak menyusut (teks terbuka/selesai diketik) */
+    }
+}
+
+/* ANIMASI SCROLL REVEAL (POP-UP) */
+
+.reveal {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s cubic-bezier(0.5, 0, 0, 1); /* Gerakan mulus */
+}
+
+/* Keadaan saat di-scroll dan masuk layar (Muncul dan naik ke posisi asli) */
+.reveal.active {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Efek Delay (Jeda) opsional agar munculnya bergantian/berurutan */
+.delay-1 { transition-delay: 0.1s; }
+.delay-2 { transition-delay: 0.2s; }
+.delay-3 { transition-delay: 0.3s; }
+.delay-4 { transition-delay: 0.4s; }
